@@ -1,0 +1,59 @@
+{
+  "usuarios": [
+    {
+      "id": "1",
+      "nome": "Maria Souza",
+      "email": "maria@email.com"
+    },
+    {
+      "id": "2",
+      "nome": "João Silva",
+      "email": "joao@email.com"
+    },
+    {
+      "id": "d738",
+      "nome": "Pedro Costa",
+      "email": "pedro@gmail.com"
+    }
+  ],
+  "livros": [
+    {
+      "id": "1",
+      "titulo": "Dom Casmurro",
+      "autor": "Machado de Assis",
+      "ano_publicacao": 1899,
+      "disponivel": false
+    },
+    {
+      "id": "2",
+      "titulo": "O Alquimista",
+      "autor": "Paulo Coelho",
+      "ano_publicacao": 1988,
+      "disponivel": true
+    },
+    {
+      "id": "3",
+      "titulo": "1984",
+      "autor": "George Orwell",
+      "ano_publicacao": 1949,
+      "disponivel": true
+    }
+  ],
+  "emprestimos": [
+    {
+      "id": "1",
+      "usuario_id": 1,
+      "livro_id": 1,
+      "data_emprestimo": "2025-08-27",
+      "data_devolucao": "2025-09-27"
+    },
+    {
+      "id": "2",
+      "usuario_id": 2,
+      "livro_id": 2,
+      "data_emprestimo": "2025-08-27",
+      "data_devolucao": "2025-09-27",
+      "devolvido": false
+    }
+  ]
+}
