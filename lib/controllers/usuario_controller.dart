@@ -26,13 +26,14 @@ class UsuarioController {
 
   //Put Usuário
   Future<UsuarioModel> update(UsuarioModel u) async{
-    final updated = await ApiService.put("usuarios", u.toJson() as String, u.id! as Map<String, dynamic>);
+    final updated = await ApiService.put("usuarios", u.toJson(), u.id!);
     return UsuarioModel.fromJson(updated);
   }
 
   //Delete Usuário
   Future<void> delete(String id) async{
-    await ApiService.delete("usuarios", id);
+    await ApiService.delete("usuarios", id); //não tem retorno
   }
+
 
 }

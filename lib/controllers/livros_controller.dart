@@ -1,38 +1,35 @@
-// livro
-
 import 'package:biblioteca_app/models/livro.model.dart';
-import 'package:biblioteca_app/services/api_service.dart';
+import '../services/api_service.dart';
 
-  class LivroController {
-
-  //métodos
-  //Get Livros
-  Future<List<LivroModel>> fetchAll() async{
-    final list = await ApiService.getList("livro?_sort=titulo");
-    //retornar a lista de livros
-    return list.map<LivroModel>((e)=>LivroModel.fromJson(e)).toList();
-  }
-  //Get Livro
-  Future<LivroModel> fetchOne(String id) async{
-    final livro = await ApiService.getOne("livro", id);
-    return LivroModel.fromJson(livro);
+class LivroController {
+  // GET todos os livros
+  Future<List<LivroModel>> fetchAll() async {
+    final list = await ApiService.getList("livros?_sort=titulo");
+    return list.map<LivroModel>((e) => LivroModel.fromJson(e)).toList();
   }
 
-  //Post Livro
-  Future<LivroModel> create(LivroModel l) async{
-    final created = await ApiService.post("livro", l.toJson());
-    return LivroModel.fromJson(created);
+  // GET um livro
+  Future<LivroModel> fetchOne(String id) async {
+    final json = await ApiService.getOne("livros", id);
+    return LivroModel.fromJson(json);
   }
 
-  //Put Livro
-  Future<LivroModel> update(LivroModel l) async{
-    final updated = await ApiService.put("livro", l.toJson() as String, l.id! as Map<String, dynamic>);
-    return LivroModel.fromJson(updated);
+  // POST criar livro
+  Future<LivroModel> create(LivroModel livro) async {
+    final json = await ApiService.post("livros", livro.toJson());
+    return LivroModel.fromJson(json);
   }
 
-  //Delete Livro
-  Future<void> delete(String id) async{
+  // PUT atualizar livro
+  Future<LivroModel> update(LivroModel livro) async {
+    final json = await ApiService.put("livros", livro.toJson(), livro.id!);
+    return LivroModel.fromJson(json);
+  }
+
+  // DELETE livro
+  Future<void> delete(String id) async {
     await ApiService.delete("livros", id);
   }
 
+  Future getById(String livroId) async {}
 }

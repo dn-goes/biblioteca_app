@@ -1,38 +1,53 @@
-//classe Emprestimo (atributos = BD)
-
-import 'package:biblioteca_app/models/emprestimo.model.dart';
-import 'package:biblioteca_app/services/api_service.dart';
+import '../models/emprestimo.model.dart';
+import 'livros_controller.dart';
 
 class EmprestimoController {
+  final LivroController _livroController = LivroController();
+  final List<EmprestimoModel> _emprestimos = [];
 
-  //métodos
-  //Get Empréstimos
-  Future<List<EmprestimoModel>> fetchAll() async{
-    final list = await ApiService.getList("emprestimos");
-    //retornar a lista de empréstimos
-    return list.map<EmprestimoModel>((e)=>EmprestimoModel.fromJson(e)).toList();
-  }
-  //Get Empréstimo
-  Future<EmprestimoModel> fetchOne(String id) async{
-    final emprestimo = await ApiService.getOne("emprestimos", id);
-    return EmprestimoModel.fromJson(emprestimo);
-  }
+  Future<List<EmprestimoModel>> fetchAll() async => _emprestimos;
 
-  //Post Empréstimo
-  Future<EmprestimoModel> create(EmprestimoModel e) async{
-    final created = await ApiService.post("emprestimos", e.toJson());
-    return EmprestimoModel.fromJson(created);
+  Future<EmprestimoModel?> getById(String id) async {
+    try {
+      return _emprestimos.firstWhere((e) => e.id == id);
+    } catch (_) {
+      return null;
+    }
   }
 
-  //Put Empréstimo
-  Future<EmprestimoModel> update(EmprestimoModel e) async{
-    final updated = await ApiService.put("emprestimos", e.toJson() as String, e.id! as Map<String, dynamic>);
-    return EmprestimoModel.fromJson(updated);
+  Future<void> create(EmprestimoModel e) async {
+    e.id ??= DateTime.now().millisecondsSinceEpoch.toString();
+    _emprestimos.add(e);
+
+    final livro = await _livroController.getById(e.livroId);
+    if (livro != null && !e.devolvido) {
+      livro.disponivel = false;
+      await _livroController.update(livro);
+    }
   }
 
-  //Delete Empréstimo
-  Future<void> delete(String id) async{
-    await ApiService.delete("emprestimos", id);
+  Future<void> update(EmprestimoModel e) async {
+    final index = _emprestimos.indexWhere((emp) => emp.id == e.id);
+    if (index != -1) {
+      _emprestimos[index] = e;
+
+      final livro = await _livroController.getById(e.livroId);
+      if (livro != null) {
+        livro.disponivel = e.devolvido;
+        await _livroController.update(livro);
+      }
+    }
   }
 
+  Future<void> delete(String id) async {
+    final emprestimo = await getById(id);
+    if (emprestimo != null) {
+      final livro = await _livroController.getById(emprestimo.livroId);
+      if (livro != null) {
+        livro.disponivel = true;
+        await _livroController.update(livro);
+      }
+      _emprestimos.removeWhere((e) => e.id == id);
+    }
+  }
 }

@@ -1,28 +1,33 @@
-//classe de livro (atributos = BD)
 class LivroModel {
-  //atributos
-  final String? id; //pode ser nulo inicialmente
-  final String titulo;
-  final String autor;
-  final bool disponivel;
+  String? id;
+  String titulo;
+  String autor;
+  int anoPublicacao;
+  bool disponivel;
 
-  //construtor
-  LivroModel({this.id, required this.titulo, required this.autor, required this.disponivel});
+  LivroModel({
+    this.id,
+    required this.titulo,
+    required this.autor,
+    required this.anoPublicacao,
+    required this.disponivel,
+  });
 
-  //FromJson => OBJ
+  // Converte JSON para objeto
   factory LivroModel.fromJson(Map<String, dynamic> json) => LivroModel(
-    id: json["id"].toString(),
-    titulo: json["titulo"].toString(),
-    autor: json["autor"].toString(),
-    disponivel: json["disponivel"] == true ? true : false
-  );
+        id: json["id"].toString(),
+        titulo: json["titulo"] ?? "",
+        autor: json["autor"] ?? "",
+        anoPublicacao: json["ano_publicacao"] ?? 0,
+        disponivel: json["disponivel"] ?? true,
+      );
 
-  //toJson => Map
+  // Converte objeto para JSON
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "titulo": titulo,
-    "autor": autor,
-    "disponivel": disponivel,
-  };
-
+        if (id != null) "id": id,
+        "titulo": titulo,
+        "autor": autor,
+        "ano_publicacao": anoPublicacao,
+        "disponivel": disponivel,
+      };
 }

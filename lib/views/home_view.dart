@@ -11,83 +11,76 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  // índice da página atual
   int _index = 0;
 
-  // páginas
   final List<Widget> _paginas = const [
     LivroListView(),
     EmprestimoListView(),
     UsuarioListView(),
   ];
 
-  // títulos para cada aba
   final List<String> _titulos = const [
-    "Gerenciador de Livros",
-    "Controle de Empréstimos",
-    "Lista de Usuários"
+    "Livros",
+    "Empréstimos",
+    "Usuários",
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // AppBar estilizado
       appBar: AppBar(
         title: Text(
           _titulos[_index],
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        backgroundColor: Colors.indigo,
-        elevation: 6,
+        backgroundColor: Colors.indigo.shade600,
+        elevation: 5,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(20),
           ),
         ),
       ),
-
-      // conteúdo principal
       body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 400),
-        transitionBuilder: (child, animation) => FadeTransition(
-          opacity: animation,
-          child: child,
-        ),
+        duration: const Duration(milliseconds: 300),
         child: _paginas[_index],
       ),
-
-      // BottomNavigationBar personalizado
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
+          color: Colors.indigo.shade600,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.15),
-              blurRadius: 10,
-              offset: const Offset(0, -3),
-            )
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 8,
+              offset: const Offset(0, -2),
+            ),
           ],
         ),
         child: ClipRRect(
           borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
           child: BottomNavigationBar(
             currentIndex: _index,
-            onTap: (value) => setState(() {
-              _index = value;
-            }),
-            backgroundColor: Colors.white,
-            selectedItemColor: Colors.indigo,
-            unselectedItemColor: Colors.grey,
-            showUnselectedLabels: true,
+            onTap: (value) => setState(() => _index = value),
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.white70,
+            backgroundColor: Colors.indigo.shade600,
             type: BottomNavigationBarType.fixed,
+            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
             items: const [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.menu_book), label: "Livros"),
+                icon: Icon(Icons.menu_book),
+                label: "Livros",
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.assignment), label: "Empréstimos"),
+                icon: Icon(Icons.assignment),
+                label: "Empréstimos",
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.people), label: "Usuários"),
+                icon: Icon(Icons.people),
+                label: "Usuários",
+              ),
             ],
           ),
         ),
@@ -95,3 +88,4 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
+

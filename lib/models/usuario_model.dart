@@ -6,20 +6,22 @@ class UsuarioModel {
   final String email;
 
   //construtor
-  UsuarioModel({this.id, required this.nome, required this.email});
+  UsuarioModel({
+    this.id, required this.nome, required this.email
+  });
 
-  //FromJson => OBJ
-  factory UsuarioModel.fromJson(Map<String, dynamic> json) => UsuarioModel(
+  //fromJson Map => OBJ
+  factory UsuarioModel.fromJson(Map<String,dynamic> json) => 
+  UsuarioModel(
     id: json["id"].toString(),
     nome: json["nome"].toString(),
-    email: json["email"].toString(),
+    email: json["email"].toString()
   );
 
-  //toJson => Map
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "nome": nome,
-    "email": email,
-  }; 
- 
+  //toJson OBJ => MAP
+  Map<String,dynamic> toJson() => {
+    "id":id,
+    "nome":nome,
+    "email":email
+  };
 }
